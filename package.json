@@ -1,0 +1,19 @@
+{
+	"type": "module",
+	"dependencies": {
+		"dotenv": "^17.3.1",
+		"express": "^5.2.1",
+		"pg": "^8.18.0",
+		"sequelize": "^6.37.7"
+	},
+	"name": "notes-app",
+	"version": "1.0.0",
+	"description": "notes app for part 13 of full stack open course",
+	"main": "index.js",
+	"devDependencies": {},
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"license": "ISC"
+}
