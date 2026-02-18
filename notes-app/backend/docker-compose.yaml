@@ -2,7 +2,7 @@ services:
   database:
     image: postgres:latest
     restart: always
-    container_name: database-container
+    container_name: notes-app-backend-container
     volumes:
       - ./postgres-data:/var/lib/postgresql
     environment:
