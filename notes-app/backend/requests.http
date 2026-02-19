@@ -1,0 +1,57 @@
+### ========================================
+### Get all notes
+### ========================================
+GET http://localhost:3001/api/notes
+Accept: application/json
+
+
+### ========================================
+### Create note 1
+### ========================================
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "First note created from REST Client",
+  "important": true,
+  "date": "2026-02-19T10:00:00.000Z"
+}
+
+
+### ========================================
+### Create note 2
+### ========================================
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "Second note - not important",
+  "important": false,
+  "date": "2026-02-19T11:00:00.000Z"
+}
+
+
+### ========================================
+### Create note 3
+### ========================================
+POST http://localhost:3001/api/notes
+Content-Type: application/json
+
+{
+  "content": "Third note - reminder to study Sequelize",
+  "important": true,
+  "date": "2026-02-19T12:00:00.000Z"
+}
+
+
+### ========================================
+### Edit note (change ID as needed)
+### ========================================
+PUT http://localhost:3001/api/notes/1
+Content-Type: application/json
+
+{
+  "content": "Updated first note content",
+  "important": false,
+  "date": "2026-02-19T15:00:00.000Z"
+}
