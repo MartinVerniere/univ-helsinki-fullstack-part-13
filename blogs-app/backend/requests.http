@@ -4,6 +4,11 @@
 GET http://localhost:3001/api/blogs
 Accept: application/json
 
+### ========================================
+### Get blog 2
+### ========================================
+GET http://localhost:3001/api/blogs/2
+Accept: application/json
 
 ### ========================================
 ### Create blog 1
@@ -44,6 +49,19 @@ Content-Type: application/json
 {
   "author": "Alex Johnson",
   "title": "PostgreSQL Basics",
+  "url": "https://example.com/postgresql-basics",
+  "likes": 0,
+  "date": "16:45:00"
+}
+
+### ========================================
+### Create blog 4 - Error
+### ========================================
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Alex Johnson",
   "url": "https://example.com/postgresql-basics",
   "likes": 0,
   "date": "16:45:00"

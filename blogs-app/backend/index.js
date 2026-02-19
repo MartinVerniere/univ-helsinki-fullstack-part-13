@@ -2,10 +2,13 @@ import express, { json } from 'express';
 import { PORT } from './util/config.js';
 import { connectToDatabase } from './util/db.js';
 import { router as blogsRuter } from './controllers/blogs.js';
+import { unknownEndpoint, errorHandler } from './controllers/blogs.js';
 
 const app = express();
 app.use(json());
 app.use('/api/blogs', blogsRuter);
+app.use(unknownEndpoint);
+app.use(errorHandler);
 
 const start = async () => {
   await connectToDatabase();

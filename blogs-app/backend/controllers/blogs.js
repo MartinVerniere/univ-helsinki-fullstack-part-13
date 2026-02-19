@@ -1,7 +1,37 @@
 import express from 'express'
 import { Blog } from '../models/blog.js';
+import { Sequelize } from 'sequelize';
 
 export const router = express.Router();
+
+export const errorHandler = (error, request, response, next) => {
+	console.error(error.message);
+
+	if (error instanceof Sequelize.ValidationError) {
+		return response.status(400).json({ error: error.message });
+	}
+
+	if (error instanceof Sequelize.DatabaseError) {
+		return response.status(400).json({ error: 'malformatted data' });
+	}
+
+	next(error);
+}
+
+const blogFinder = async (req, res, next) => {
+	try {
+		const blog = await Blog.findByPk(req.params.id);
+		if (blog) req.blog = blog;
+		else return res.status(404).end();
+		next();
+	} catch (error) {
+		next(error);
+	}
+}
+
+export const unknownEndpoint = (request, response) => {
+	response.status(404).send({ error: 'unknown endpoint' });
+}
 
 router.get('/', async (req, res) => {
 	const blogs = await Blog.findAll();
@@ -16,11 +46,6 @@ router.post('/', async (req, res) => {
 		return res.status(400).json({ error });
 	}
 });
-
-const blogFinder = async (req, res, next) => {
-	req.blog = await Blog.findByPk(req.params.id);
-	next();
-}
 
 router.get('/:id', blogFinder, async (req, res) => {
 	if (req.blog) {
