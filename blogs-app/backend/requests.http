@@ -1,0 +1,57 @@
+### ========================================
+### Get all blogs
+### ========================================
+GET http://localhost:3001/api/blogs
+Accept: application/json
+
+
+### ========================================
+### Create blog 1
+### ========================================
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "author": "John Doe",
+  "title": "Getting Started with Sequelize",
+  "url": "https://example.com/sequelize-guide",
+  "likes": 5,
+  "date": "12:00:00"
+}
+
+
+### ========================================
+### Create blog 2
+### ========================================
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Jane Smith",
+  "title": "Understanding REST APIs",
+  "url": "https://example.com/rest-api",
+  "likes": 2,
+  "date": "14:30:00"
+}
+
+
+### ========================================
+### Create blog 3
+### ========================================
+POST http://localhost:3001/api/blogs
+Content-Type: application/json
+
+{
+  "author": "Alex Johnson",
+  "title": "PostgreSQL Basics",
+  "url": "https://example.com/postgresql-basics",
+  "likes": 0,
+  "date": "16:45:00"
+}
+
+
+### ========================================
+### Delete blog 2
+### ========================================
+DELETE http://localhost:3001/api/blogs/2
+Content-Type: application/json
