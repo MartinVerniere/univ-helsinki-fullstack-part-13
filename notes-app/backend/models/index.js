@@ -1,6 +1,6 @@
-import { sync } from './note.js';
+import { Note } from './note.js';
 
-sync();
+Note.sync();
 
 export default {
   Note
