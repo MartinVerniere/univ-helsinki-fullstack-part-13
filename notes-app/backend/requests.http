@@ -47,11 +47,33 @@ Content-Type: application/json
 ### ========================================
 ### Edit note (change ID as needed)
 ### ========================================
-PUT http://localhost:3001/api/notes/1
+PUT http://localhost:3001/api/notes/5
 Content-Type: application/json
 
 {
   "content": "Updated first note content - EDITED",
   "important": false,
   "date": "2026-02-19T15:00:00.000Z"
+}
+
+### ========================================
+### Create user 
+### ========================================
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  "username": "martinverniere",
+  "name": "Martin Verniere"
+}
+
+### ========================================
+### Login user 
+### ========================================
+POST http://localhost:3001/api/login
+Content-Type: application/json
+
+{
+  "username": "martinverniere",
+  "password": "secret"
 }

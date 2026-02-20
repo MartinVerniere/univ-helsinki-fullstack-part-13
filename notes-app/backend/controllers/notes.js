@@ -1,5 +1,6 @@
 import express from 'express'
-import { Note } from '../models/note.js';
+import models from '../models/index.js';
+const { Note } = models;
 
 export const router = express.Router();
 
