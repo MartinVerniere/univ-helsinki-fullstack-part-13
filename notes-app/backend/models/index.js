@@ -1,7 +1,10 @@
 import { Note } from './note.js';
 import { User } from './user.js';
 
-Note.sync();
-User.sync();
+User.hasMany(Note);
+Note.belongsTo(User);
+
+Note.sync({ alter: true });
+User.sync({ alter: true });
 
 export default { Note, User }
