@@ -45,9 +45,13 @@ router.get('/:id', blogFinder, async (req, res) => {
 	}
 });
 
-router.delete('/:id', blogFinder, async (req, res) => {
+router.delete('/:id', tokenExtractor, blogFinder, async (req, res) => {
 	if (req.blog) {
-		await req.blog.destroy();
+		if (req.decodedToken.id === req.blog.userId) { // If associated token from request is the same as the user id inside the blog object, its same user
+			await req.blog.destroy();
+		} else {
+			return res.status(403).json({ error: "Can't delete a blog created by another user." });
+		}
 	}
 	res.status(204).end();
 });
