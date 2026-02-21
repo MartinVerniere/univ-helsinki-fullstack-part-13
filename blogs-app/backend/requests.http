@@ -10,7 +10,6 @@ Accept: application/json
 ### Create blog 1
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRpbnZlcm5pZXJlIiwiaWQiOjEsImlhdCI6MTc3MTY3NjQyNH0.c19-jOysV0XGsQ0irypB2cJR3JlvjFSt_DD9d-2lKwo
 
 {
   "author": "John Doe",
@@ -58,7 +57,6 @@ Content-Type: application/json
 ### Delete blog 2
 DELETE http://localhost:3001/api/blogs/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1hcnRpbnZlcm5pZXJlIiwiaWQiOjEsImlhdCI6MTc3MTY3NzQ4NX0.tu5rL5w9-2uHXBCjl1x_g6W7eVeqMdMQJqQ_UZ3jPPQ
 
 ### Like blog 1
 PUT http://localhost:3001/api/blogs/1
