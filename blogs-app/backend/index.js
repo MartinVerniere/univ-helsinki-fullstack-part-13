@@ -5,6 +5,7 @@ import { router as blogsRuter } from './controllers/blogs.js';
 import { unknownEndpoint, errorHandler } from './util/controllers.js';
 import { router as usersRouter } from './controllers/users.js';
 import { router as loginRouter } from './controllers/login.js';
+import { router as authorsRouter } from './controllers/authors.js';
 
 const app = express();
 app.use(json());
@@ -12,6 +13,7 @@ app.use(json());
 app.use('/api/blogs', blogsRuter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
+app.use('/api/authors', authorsRouter);
 
 app.use(unknownEndpoint);
 app.use(errorHandler);
