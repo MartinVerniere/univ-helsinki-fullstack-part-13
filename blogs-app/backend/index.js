@@ -2,7 +2,7 @@ import express, { json } from 'express';
 import { PORT } from './util/config.js';
 import { connectToDatabase } from './util/db.js';
 import { router as blogsRuter } from './controllers/blogs.js';
-import { unknownEndpoint, errorHandler } from './controllers/blogs.js';
+import { unknownEndpoint, errorHandler } from './util/controllers.js';
 import { router as usersRouter } from './controllers/users.js';
 import { router as loginRouter } from './controllers/login.js';
 

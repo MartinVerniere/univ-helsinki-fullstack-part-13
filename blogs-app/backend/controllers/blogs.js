@@ -1,22 +1,9 @@
 import express from 'express'
-import { Blog } from '../models/blog.js';
-import { Sequelize } from 'sequelize';
+import { tokenExtractor } from '../util/controllers.js';
+import models from '../models/index.js';
+const { User, Blog } = models;
 
 export const router = express.Router();
-
-export const errorHandler = (error, request, response, next) => {
-	console.error(error.message);
-
-	if (error instanceof Sequelize.ValidationError) {
-		return response.status(400).json({ error: error.message });
-	}
-
-	if (error instanceof Sequelize.DatabaseError) {
-		return response.status(400).json({ error: 'malformatted data' });
-	}
-
-	next(error);
-}
 
 const blogFinder = async (req, res, next) => {
 	try {
@@ -29,18 +16,21 @@ const blogFinder = async (req, res, next) => {
 	}
 }
 
-export const unknownEndpoint = (request, response) => {
-	response.status(404).send({ error: 'unknown endpoint' });
-}
-
 router.get('/', async (req, res) => {
-	const blogs = await Blog.findAll();
+	const blogs = await Blog.findAll({
+		attributes: { exclude: ['userId'] },
+		include: {
+			model: User,
+			attributes: ['name']
+		}
+	});
 	res.json(blogs);
 });
 
-router.post('/', async (req, res) => {
+router.post('/', tokenExtractor, async (req, res) => {
 	try {
-		const blog = await Blog.create(req.body);
+		const user = await User.findByPk(req.decodedToken.id);
+		const blog = await Blog.create({ ...req.body, userId: user.id })
 		res.json(blog);
 	} catch (error) {
 		return res.status(400).json({ error });
