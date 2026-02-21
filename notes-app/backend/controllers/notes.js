@@ -2,6 +2,8 @@ import express from 'express'
 import models from '../models/index.js';
 import jwt from 'jsonwebtoken';
 import { SECRET } from '../util/config.js';
+import { Op } from 'sequelize';
+
 const { User, Note } = models;
 
 export const router = express.Router();
@@ -21,12 +23,25 @@ const tokenExtractor = (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
+	const where = {}
+
+	if (req.query.important) {
+		where.important = req.query.important === "true"
+	}
+
+	if (req.query.search) {
+		where.content = {
+			[Op.substring]: req.query.search
+		}
+	}
+
 	const notes = await Note.findAll({
 		attributes: { exclude: ['userId'] },
 		include: {
 			model: User,
 			attributes: ['name']
-		}
+		},
+		where
 	});
 	res.json(notes);
 })
