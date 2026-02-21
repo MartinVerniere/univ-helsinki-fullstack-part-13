@@ -1,6 +1,8 @@
 import express from 'express'
 import { tokenExtractor } from '../util/controllers.js';
 import models from '../models/index.js';
+import { Op } from 'sequelize';
+
 const { User, Blog } = models;
 
 export const router = express.Router();
@@ -17,12 +19,21 @@ const blogFinder = async (req, res, next) => {
 }
 
 router.get('/', async (req, res) => {
+	const where = {};
+
+	if (req.query.search) {
+		where.title = {
+			[Op.iLike]: `%${req.query.search}%`
+		}
+	}
+
 	const blogs = await Blog.findAll({
 		attributes: { exclude: ['userId'] },
 		include: {
 			model: User,
 			attributes: ['name']
-		}
+		},
+		where
 	});
 	res.json(blogs);
 });
