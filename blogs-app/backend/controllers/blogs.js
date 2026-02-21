@@ -20,6 +20,7 @@ const blogFinder = async (req, res, next) => {
 
 router.get('/', async (req, res) => {
 	let where = {};
+	let order = {};
 
 	if (req.query.search) {
 		where = {
@@ -30,13 +31,17 @@ router.get('/', async (req, res) => {
 		}
 	}
 
+	order = [['likes', 'DESC']];
+
+
 	const blogs = await Blog.findAll({
 		attributes: { exclude: ['userId'] },
 		include: {
 			model: User,
 			attributes: ['name']
 		},
-		where
+		where,
+		order
 	});
 	res.json(blogs);
 });
