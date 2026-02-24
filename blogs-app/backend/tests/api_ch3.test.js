@@ -1,7 +1,7 @@
 import { describe, it, before } from 'node:test';
 import { ok, strictEqual } from 'node:assert';
 import { get, post, put } from 'axios';
-import { baseUrl, resetAndSeed } from './helper';
+import { baseUrl, resetAndSeed } from './helper.js';
 
 let testData;
 
