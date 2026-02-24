@@ -38,7 +38,9 @@ jobs:
         working-directory: blogs-app/backend
         
       - name: Start application
-        run: npm start > app.log 2>&1 &
+        run: |
+          npm start > app.log 2>&1 &
+          npx wait-on http://localhost:3001 -t 60000
         working-directory: blogs-app/backend
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db?sslmode=disable
