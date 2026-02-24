@@ -3,8 +3,7 @@ import { ok, strictEqual, fail, notStrictEqual } from 'node:assert';
 import axios from 'axios';
 import { baseUrl, resetAndSeed, createUser, login } from './helper.js';
 
-
-const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms))
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 // Shared test data for all tests in this file
 let testData;

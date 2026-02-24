@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-const baseUrl = 'http://localhost:3001/api';
+export const baseUrl = 'http://localhost:3001/api';
 
 const resetDatabase = async () => {
 	await axios.post(`${baseUrl}/reset`);
 }
 
-const createUser = async (username, name, password) => {
+export const createUser = async (username, name, password) => {
 	const response = await axios.post(`${baseUrl}/users`, {
 		username,
 		name,
@@ -15,7 +15,7 @@ const createUser = async (username, name, password) => {
 	return response.data;
 }
 
-const login = async (username, password) => {
+export const login = async (username, password) => {
 	const response = await axios.post(`${baseUrl}/login`, {
 		username,
 		password
@@ -23,7 +23,7 @@ const login = async (username, password) => {
 	return response.data.token;
 }
 
-const resetAndSeed = async () => {
+export const resetAndSeed = async () => {
 	await resetDatabase();
 
 	const user1 = await createUser('test1@example.com', 'Test User 1', 'password123');
@@ -36,11 +36,4 @@ const resetAndSeed = async () => {
 		users: [user1, user2],
 		tokens: [token1, token2]
 	}
-}
-
-export default {
-	baseUrl,
-	resetAndSeed,
-	createUser,
-	login
 }
