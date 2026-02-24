@@ -11,13 +11,13 @@ import { router as resetRouter } from './controllers/reset.js';
 const app = express();
 app.use(json());
 
+app.get('/', (req, res) => { res.status(200).send('ok'); });
+
 app.use('/api/blogs', blogsRuter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/authors', authorsRouter);
 app.use('/api/reset', resetRouter);
-
-app.get('/', (req, res) => { res.status(200).send('ok'); });
 
 app.use(unknownEndpoint);
 app.use(errorHandler);

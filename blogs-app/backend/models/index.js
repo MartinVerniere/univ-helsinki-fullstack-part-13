@@ -4,9 +4,7 @@ import { User } from './user.js';
 User.hasMany(Blog);
 Blog.belongsTo(User);
 
-export const syncModels = async () => {
-	await User.sync({ alter: true });
-	await Blog.sync({ alter: true });
-};
+Blog.sync({ alter: true });
+User.sync({ alter: true });
 
 export default { Blog, User }
