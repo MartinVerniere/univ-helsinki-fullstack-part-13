@@ -1,13 +1,13 @@
-import { post } from 'axios'
+import axios from 'axios';
 
 const baseUrl = 'http://localhost:3001/api';
 
 const resetDatabase = async () => {
-	await post(`${baseUrl}/reset`);
+	await axios.post(`${baseUrl}/reset`);
 }
 
 const createUser = async (username, name, password) => {
-	const response = await post(`${baseUrl}/users`, {
+	const response = await axios.post(`${baseUrl}/users`, {
 		username,
 		name,
 		password
@@ -16,7 +16,7 @@ const createUser = async (username, name, password) => {
 }
 
 const login = async (username, password) => {
-	const response = await post(`${baseUrl}/login`, {
+	const response = await axios.post(`${baseUrl}/login`, {
 		username,
 		password
 	});

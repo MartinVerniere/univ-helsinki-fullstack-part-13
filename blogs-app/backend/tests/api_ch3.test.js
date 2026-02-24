@@ -1,6 +1,6 @@
 import { describe, it, before } from 'node:test';
 import { ok, strictEqual } from 'node:assert';
-import { get, post, put } from 'axios';
+import axios from 'axios';
 import { baseUrl, resetAndSeed } from './helper.js';
 
 let testData;
@@ -11,7 +11,7 @@ before(async () => {
 
 describe('Blogs API', () => {
 	it('blogs are returned as json and initially empty', async () => {
-		const response = await get(`${baseUrl}/blogs`)
+		const response = await axios.get(`${baseUrl}/blogs`)
 		ok([200, 201].includes(response.status))
 		strictEqual(response.headers['content-type'], 'application/json; charset=utf-8')
 		strictEqual(Array.isArray(response.data), true)
@@ -25,7 +25,7 @@ describe('Blogs API', () => {
 			url: 'https://example.com/test-blog'
 		}
 
-		const response = await post(`${baseUrl}/blogs`, newBlog, {
+		const response = await axios.post(`${baseUrl}/blogs`, newBlog, {
 			headers: { Authorization: `Bearer ${testData.tokens[0]}` }
 		})
 
@@ -37,16 +37,16 @@ describe('Blogs API', () => {
 	})
 
 	it('created blog appears in blogs list', async () => {
-		const response = await get(`${baseUrl}/blogs`)
+		const response = await axios.get(`${baseUrl}/blogs`)
 		strictEqual(response.data.length, 1)
 		strictEqual(response.data[0].title, 'Test Blog Post')
 	})
 
 	it('blog can be updated', async () => {
-		const blogsResponse = await get(`${baseUrl}/blogs`)
+		const blogsResponse = await axios.get(`${baseUrl}/blogs`)
 		const blogId = blogsResponse.data[0].id
 
-		const response = await put(`${baseUrl}/blogs/${blogId}`, {
+		const response = await axios.put(`${baseUrl}/blogs/${blogId}`, {
 			likes: 5
 		})
 
@@ -57,14 +57,14 @@ describe('Blogs API', () => {
 
 describe('Users API', () => {
 	it('all users are returned', async () => {
-		const response = await get(`${baseUrl}/users`)
+		const response = await axios.get(`${baseUrl}/users`)
 		ok([200, 201].includes(response.status))
 		strictEqual(Array.isArray(response.data), true)
 		strictEqual(response.data.length, 2)
 	})
 
 	it('users have correct properties', async () => {
-		const response = await get(`${baseUrl}/users`)
+		const response = await axios.get(`${baseUrl}/users`)
 		const user = response.data[0]
 
 		ok(user.id)
@@ -76,13 +76,13 @@ describe('Users API', () => {
 
 describe('Authors API', () => {
 	it('returns author statistics', async () => {
-		const response = await get(`${baseUrl}/authors`)
+		const response = await axios.get(`${baseUrl}/authors`)
 		ok([200, 201].includes(response.status))
 		strictEqual(Array.isArray(response.data), true)
 	})
 
 	it('author stats have correct structure', async () => {
-		const response = await get(`${baseUrl}/authors`)
+		const response = await axios.get(`${baseUrl}/authors`)
 
 		if (response.data.length > 0) {
 			const author = response.data[0]

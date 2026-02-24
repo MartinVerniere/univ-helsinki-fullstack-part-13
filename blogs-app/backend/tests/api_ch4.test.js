@@ -1,6 +1,6 @@
 import { describe, it, before, after } from 'node:test';
 import { ok, strictEqual, fail, notStrictEqual } from 'node:assert';
-import { post, get, put, delete as del } from 'axios';
+import axios from 'axios';
 import { baseUrl, resetAndSeed, createUser, login } from './helper.js';
 
 
@@ -25,7 +25,7 @@ before(async () => {
 		url: 'https://example.com/reading-list-blog'
 	};
 
-	const blogResponse = await post(`${baseUrl}/blogs`, newBlog, {
+	const blogResponse = await axios.post(`${baseUrl}/blogs`, newBlog, {
 		headers: { Authorization: `Bearer ${testData.tokens[0]}` }
 	});
 	createdBlogId = blogResponse.data.id;
@@ -38,7 +38,7 @@ describe('Reading Lists API', () => {
 			userId: testData.users[0].id
 		};
 
-		const response = await post(`${baseUrl}/readinglists`, readingListEntry);
+		const response = await axios.post(`${baseUrl}/readinglists`, readingListEntry);
 
 		ok([200, 201].includes(response.status));
 		strictEqual(response.data.blog_id, createdBlogId);
@@ -53,7 +53,7 @@ describe('Reading Lists API', () => {
 		};
 
 		try {
-			await post(`${baseUrl}/readinglists`, readingListEntry);
+			await axios.post(`${baseUrl}/readinglists`, readingListEntry);
 			fail('Should have thrown an error');
 		} catch (error) {
 			strictEqual(error.response.status, 400);
@@ -66,7 +66,7 @@ describe('Reading Lists API', () => {
 		};
 
 		try {
-			await post(`${baseUrl}/readinglists`, readingListEntry);
+			await axios.post(`${baseUrl}/readinglists`, readingListEntry);
 			fail('Should have thrown an error');
 		} catch (error) {
 			strictEqual(error.response.status, 400);
@@ -79,7 +79,7 @@ describe('Reading Lists API', () => {
 		};
 
 		try {
-			await post(`${baseUrl}/readinglists`, readingListEntry);
+			await axios.post(`${baseUrl}/readinglists`, readingListEntry);
 			fail('Should have thrown an error');
 		} catch (error) {
 			strictEqual(error.response.status, 400);
@@ -93,7 +93,7 @@ describe('Reading Lists API', () => {
 		}
 
 		try {
-			await post(`${baseUrl}/readinglists`, readingListEntry);
+			await axios.post(`${baseUrl}/readinglists`, readingListEntry);
 			fail('Should have thrown an error');
 		} catch (error) {
 			strictEqual(error.response.status, 404);
@@ -107,7 +107,7 @@ describe('Reading Lists API', () => {
 		}
 
 		try {
-			await post(`${baseUrl}/readinglists`, readingListEntry);
+			await axios.post(`${baseUrl}/readinglists`, readingListEntry);
 			fail('Should have thrown an error');
 		} catch (error) {
 			strictEqual(error.response.status, 404);
@@ -115,7 +115,7 @@ describe('Reading Lists API', () => {
 	})
 
 	it('user can view their reading list', async () => {
-		const response = await get(`${baseUrl}/users/${testData.users[0].id}`)
+		const response = await axios.get(`${baseUrl}/users/${testData.users[0].id}`)
 
 		ok([200, 201].includes(response.status));
 		strictEqual(response.data.name, testData.users[0].name);
@@ -133,10 +133,10 @@ describe('Reading Lists API', () => {
 	})
 
 	it('user can filter reading list by read status', async () => {
-		const responseUnread = await get(`${baseUrl}/users/${testData.users[0].id}?read=false`);
+		const responseUnread = await axios.get(`${baseUrl}/users/${testData.users[0].id}?read=false`);
 		ok([200, 201].includes(responseUnread.status));
 
-		const responseRead = await get(`${baseUrl}/users/${testData.users[0].id}?read=true`);
+		const responseRead = await axios.get(`${baseUrl}/users/${testData.users[0].id}?read=true`);
 		ok([200, 201].includes(responseRead.status));
 
 		// All readings should be unread at this point
@@ -145,10 +145,10 @@ describe('Reading Lists API', () => {
 	})
 
 	it('user can mark a blog as read with authentication', async () => {
-		const userResponse = await get(`${baseUrl}/users/${testData.users[0].id}`);
+		const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`);
 		const readingListId = userResponse.data.readings[0].reading_list.id;
 
-		const response = await put(
+		const response = await axios.put(
 			`${baseUrl}/readinglists/${readingListId}`,
 			{ read: true },
 			{ headers: { Authorization: `Bearer ${testData.tokens[0]}` } }
@@ -159,11 +159,11 @@ describe('Reading Lists API', () => {
 	})
 
 	it('marking as read requires authentication', async () => {
-		const userResponse = await get(`${baseUrl}/users/${testData.users[0].id}`);
+		const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`);
 		const readingListId = userResponse.data.readings[0].reading_list.id;
 
 		try {
-			await put(
+			await axios.put(
 				`${baseUrl}/readinglists/${readingListId}`,
 				{ read: false }
 			);
@@ -174,11 +174,11 @@ describe('Reading Lists API', () => {
 	})
 
 	it('user can only mark their own reading list entries', async () => {
-		const userResponse = await get(`${baseUrl}/users/${testData.users[0].id}`);
+		const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`);
 		const readingListId = userResponse.data.readings[0].reading_list.id;
 
 		try {
-			await put(
+			await axios.put(
 				`${baseUrl}/readinglists/${readingListId}`,
 				{ read: false },
 				{ headers: { Authorization: `Bearer ${testData.tokens[1]}` } }
@@ -191,7 +191,7 @@ describe('Reading Lists API', () => {
 
 	it('returns 404 when marking non-existent reading list entry', async () => {
 		try {
-			await put(
+			await axios.put(
 				`${baseUrl}/readinglists/99999`,
 				{ read: true },
 				{ headers: { Authorization: `Bearer ${testData.tokens[0]}` } }
@@ -203,11 +203,11 @@ describe('Reading Lists API', () => {
 	})
 
 	it('verified that blog is now marked as read', async () => {
-		const responseRead = await get(`${baseUrl}/users/${testData.users[0].id}?read=true`);
+		const responseRead = await axios.get(`${baseUrl}/users/${testData.users[0].id}?read=true`);
 		ok([200, 201].includes(responseRead.status));
 		ok(responseRead.data.readings.length > 0);
 
-		const responseUnread = await get(`${baseUrl}/users/${testData.users[0].id}?read=false`);
+		const responseUnread = await axios.get(`${baseUrl}/users/${testData.users[0].id}?read=false`);
 		ok([200, 201].includes(responseUnread.status));
 		strictEqual(responseUnread.data.readings.length, 0);
 	})
@@ -217,7 +217,7 @@ describe('Session Management API', () => {
 	let sessionToken
 
 	it('login creates a session', async () => {
-		const response = await post(`${baseUrl}/login`, {
+		const response = await axios.post(`${baseUrl}/login`, {
 			username: 'session@example.com',
 			password: 'sessionpass'
 		})
@@ -236,7 +236,7 @@ describe('Session Management API', () => {
 			url: 'https://example.com/session-blog'
 		};
 
-		const response = await post(`${baseUrl}/blogs`, newBlog, {
+		const response = await axios.post(`${baseUrl}/blogs`, newBlog, {
 			headers: { Authorization: `Bearer ${sessionToken}` }
 		});
 
@@ -245,7 +245,7 @@ describe('Session Management API', () => {
 	})
 
 	it('logout removes user sessions', async () => {
-		const response = await del(`${baseUrl}/logout`, {
+		const response = await axios.delete(`${baseUrl}/logout`, {
 			headers: { Authorization: `Bearer ${sessionToken}` }
 		});
 
@@ -260,7 +260,7 @@ describe('Session Management API', () => {
 		};
 
 		try {
-			await post(`${baseUrl}/blogs`, newBlog, {
+			await axios.post(`${baseUrl}/blogs`, newBlog, {
 				headers: { Authorization: `Bearer ${sessionToken}` }
 			});
 			fail('Should have thrown an error');
@@ -271,7 +271,7 @@ describe('Session Management API', () => {
 
 	it('logout without token returns 401', async () => {
 		try {
-			await del(`${baseUrl}/logout`);
+			await axios.delete(`${baseUrl}/logout`);
 			fail('Should have thrown an error');
 		} catch (error) {
 			strictEqual(error.response.status, 401);
@@ -280,7 +280,7 @@ describe('Session Management API', () => {
 
 	it('logout with invalid token returns 401', async () => {
 		try {
-			await del(`${baseUrl}/logout`, {
+			await axios.delete(`${baseUrl}/logout`, {
 				headers: { Authorization: 'Bearer invalidtoken123' }
 			});
 			fail('Should have thrown an error');
@@ -302,7 +302,7 @@ describe('Session Management API', () => {
 			url: 'https://example.com/token1'
 		};
 
-		const response1 = await post(`${baseUrl}/blogs`, newBlog1, {
+		const response1 = await axios.post(`${baseUrl}/blogs`, newBlog1, {
 			headers: { Authorization: `Bearer ${token1}` }
 		});
 		ok([200, 201].includes(response1.status));
@@ -313,7 +313,7 @@ describe('Session Management API', () => {
 			url: 'https://example.com/token2'
 		};
 
-		const response2 = await post(`${baseUrl}/blogs`, newBlog2, {
+		const response2 = await axios.post(`${baseUrl}/blogs`, newBlog2, {
 			headers: { Authorization: `Bearer ${token2}` }
 		});
 		ok([200, 201].includes(response2.status));
@@ -324,7 +324,7 @@ describe('Session Management API', () => {
 		await sleep(1100);
 		const token = await login('session@example.com', 'sessionpass');
 
-		await del(`${baseUrl}/logout`, {
+		await axios.delete(`${baseUrl}/logout`, {
 			headers: { Authorization: `Bearer ${token}` }
 		});
 
@@ -335,7 +335,7 @@ describe('Session Management API', () => {
 		};
 
 		try {
-			await post(`${baseUrl}/blogs`, newBlog, {
+			await axios.post(`${baseUrl}/blogs`, newBlog, {
 				headers: { Authorization: `Bearer ${token}` }
 			});
 			fail('Should have thrown an error');
@@ -354,7 +354,7 @@ describe('Session Management API', () => {
 			url: 'https://example.com/active'
 		};
 
-		const response = await post(`${baseUrl}/blogs`, newBlog, {
+		const response = await axios.post(`${baseUrl}/blogs`, newBlog, {
 			headers: { Authorization: `Bearer ${token}` }
 		});
 
@@ -376,7 +376,7 @@ describe('Integration: Reading Lists and Sessions', () => {
 			url: 'https://example.com/integration'
 		};
 
-		const blogResponse = await post(`${baseUrl}/blogs`, newBlog, {
+		const blogResponse = await axios.post(`${baseUrl}/blogs`, newBlog, {
 			headers: { Authorization: `Bearer ${integrationToken}` }
 		});
 		integrationBlogId = blogResponse.data.id;
@@ -386,7 +386,7 @@ describe('Integration: Reading Lists and Sessions', () => {
 			userId: testData.users[1].id
 		};
 
-		const response = await post(`${baseUrl}/readinglists`, readingListEntry);
+		const response = await axios.post(`${baseUrl}/readinglists`, readingListEntry);
 
 		ok([200, 201].includes(response.status));
 		strictEqual(response.data.blog_id, integrationBlogId);
@@ -394,7 +394,7 @@ describe('Integration: Reading Lists and Sessions', () => {
 	})
 
 	it('can mark blog as read with valid session', async () => {
-		const response = await put(
+		const response = await axios.put(
 			`${baseUrl}/readinglists/${integrationReadingListId}`,
 			{ read: true },
 			{ headers: { Authorization: `Bearer ${integrationToken}` } }
@@ -405,12 +405,12 @@ describe('Integration: Reading Lists and Sessions', () => {
 	})
 
 	it('cannot mark blog as read after session expires (logout)', async () => {
-		await del(`${baseUrl}/logout`, {
+		await axios.delete(`${baseUrl}/logout`, {
 			headers: { Authorization: `Bearer ${integrationToken}` }
 		});
 
 		try {
-			await put(
+			await axios.put(
 				`${baseUrl}/readinglists/${integrationReadingListId}`,
 				{ read: false },
 				{ headers: { Authorization: `Bearer ${integrationToken}` } }
@@ -425,7 +425,7 @@ describe('Integration: Reading Lists and Sessions', () => {
 		await sleep(1100);
 		const newToken = await login('test2@example.com', 'password456');
 
-		const response = await put(
+		const response = await axios.put(
 			`${baseUrl}/readinglists/${integrationReadingListId}`,
 			{ read: false },
 			{ headers: { Authorization: `Bearer ${newToken}` } }
