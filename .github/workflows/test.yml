@@ -38,7 +38,7 @@ jobs:
         working-directory: blogs-app/backend
         
       - name: Start application
-        run: npm start
+        run: npm start > app.log 2>&1 &
         working-directory: blogs-app/backend
         env:
           DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db?sslmode=disable
