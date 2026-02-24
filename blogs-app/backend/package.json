@@ -5,6 +5,7 @@
 	"description": "blogs app for exercises of part 13 of full stack open course",
 	"main": "index.js",
 	"scripts": {
+		"start": "node index.js",
 		"test": "node --test --test-concurrency=1 tests/api_ch3.test.js"
 	},
 	"author": "",
