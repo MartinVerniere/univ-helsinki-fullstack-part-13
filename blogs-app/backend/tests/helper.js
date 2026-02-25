@@ -29,8 +29,8 @@ export const resetAndSeed = async () => {
 	const user1 = await createUser('test1@example.com', 'Test User 1', 'password123');
 	const user2 = await createUser('test2@example.com', 'Test User 2', 'password456');
 
-	const token1 = await login('test1@example.com', 'password123');
-	const token2 = await login('test2@example.com', 'password456');
+	const token1 = await login('test1@example.com', 'secret'); //password was password123
+	const token2 = await login('test2@example.com', 'secret'); //password was password456
 
 	return {
 		users: [user1, user2],
