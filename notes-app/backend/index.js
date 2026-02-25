@@ -13,10 +13,10 @@ app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 
 const start = async () => {
-  await connectToDatabase();
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  })
+	await connectToDatabase();
+	app.listen(PORT, () => {
+		console.log(`Server running on port ${PORT}`);
+	});
 }
 
 start();
