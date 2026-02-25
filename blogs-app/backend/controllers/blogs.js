@@ -77,6 +77,7 @@ router.delete('/:id', tokenExtractor, blogFinder, async (req, res) => {
 router.put('/:id', blogFinder, async (req, res) => {
 	if (req.blog) {
 		await req.blog.update(req.body);
+		res.status(200).json(req.blog);
 	} else {
 		res.status(404).end();
 	}
