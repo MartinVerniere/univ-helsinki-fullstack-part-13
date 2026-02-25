@@ -76,8 +76,10 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-  "username": "martinverniere2",
-  "name": "Martin Verniere2"
+  "username": "ousa2",
+  "name": "Outi Savolainen",
+  "admin": true,
+  "disabled": false
 }
 
 ### ========================================
@@ -87,6 +89,17 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "username": "martinverniere",
+  "username": "jakousa",
   "password": "secret"
+}
+
+### ========================================
+### Change is enabled user 
+### ========================================
+PUT http://localhost:3001/api/users/jakousa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im91c2EyIiwiaWQiOjUsImlhdCI6MTc3MjAyNjc3OX0.g-BJ6DLS3SNdnFUOTvWqNSjckgfbmJfiiQYyA_9Gxmo
+
+{
+  "disabled": false
 }

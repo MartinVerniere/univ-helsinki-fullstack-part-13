@@ -13,7 +13,9 @@
 	"description": "notes app for part 13 of full stack open course",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"dev": "nodemon index.js",
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"migration:down": "node util/rollback.js"
 	},
 	"author": "",
 	"license": "ISC"
