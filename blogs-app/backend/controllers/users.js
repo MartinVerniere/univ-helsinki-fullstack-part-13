@@ -18,7 +18,9 @@ router.get('/', async (req, res) => {
 
 router.post('/', async (req, res) => {
 	try {
-		const user = await User.create(req.body);
+		const { username, name, password } = req.body;
+		const passwordHash = await bcrypt.hash(password, 10);
+		const user = await User.create({ username, name, passwordHash });
 		res.json(user);
 	} catch (error) {
 		return res.status(400).json({ error });
