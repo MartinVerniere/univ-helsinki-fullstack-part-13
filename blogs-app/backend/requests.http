@@ -10,33 +10,35 @@ Accept: application/json
 ### Create blog 1
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMDgwNn0.nfwX5Inmb0uYQOVToX1dgxgxIO_Wv00xFEdy3krbYnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMTUzMX0.dFb1iZ0a52FbrflHcvVoejE6xdQXXD4F5-9s6QS72yE
 
 {
   "author": "John Doe",
   "title": "Getting Started with Sequelize",
   "url": "https://example.com/sequelize-guide",
   "likes": 5,
-  "date": "12:00:00"
+  "date": "12:00:00",
+  "year_written": 2006
 }
 
 ### Create blog 2
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMDgwNn0.nfwX5Inmb0uYQOVToX1dgxgxIO_Wv00xFEdy3krbYnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMTUzMX0.dFb1iZ0a52FbrflHcvVoejE6xdQXXD4F5-9s6QS72yE
 
 {
   "author": "Jane Smith",
   "title": "Understanding REST APIs",
   "url": "https://example.com/rest-api",
   "likes": 2,
-  "date": "14:30:00"
+  "date": "14:30:00",
+  "year_written": 1950
 }
 
 ### Create blog 3
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMDgwNn0.nfwX5Inmb0uYQOVToX1dgxgxIO_Wv00xFEdy3krbYnM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMTUzMX0.dFb1iZ0a52FbrflHcvVoejE6xdQXXD4F5-9s6QS72yE
 
 {
   "author": "Alex Johnson",
