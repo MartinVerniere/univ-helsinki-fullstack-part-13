@@ -1,22 +1,11 @@
 import express from 'express'
-import { tokenExtractor } from '../util/controllers.js';
 import models from '../models/index.js';
 import { Op } from 'sequelize';
+import { blogFinder, tokenExtractor } from '../util/middleware.js';
 
 const { User, Blog } = models;
 
 export const router = express.Router();
-
-const blogFinder = async (req, res, next) => {
-	try {
-		const blog = await Blog.findByPk(req.params.id);
-		if (blog) req.blog = blog;
-		else return res.status(404).end();
-		next();
-	} catch (error) {
-		next(error);
-	}
-}
 
 router.get('/', async (req, res) => {
 	let where = {};

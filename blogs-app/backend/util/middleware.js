@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { Sequelize } from 'sequelize';
 import { SECRET } from './config.js';
+import models from '../models/index.js';
+const { User, Blog } = models;
 
 export const errorHandler = (error, request, response, next) => {
 	console.error(error.message);
@@ -33,3 +35,23 @@ export const tokenExtractor = (req, res, next) => {
 	}
 	next();
 }
+
+export const isAdmin = async (req, res, next) => {
+	const user = await User.findByPk(req.decodedToken.id)
+	if (!user.admin) {
+		return res.status(401).json({ error: 'operation not allowed' });
+	}
+	next();
+};
+
+export const blogFinder = async (req, res, next) => {
+	try {
+		const blog = await Blog.findByPk(req.params.id);
+		if (blog) req.blog = blog;
+		else return res.status(404).end();
+		next();
+	} catch (error) {
+		next(error);
+	}
+}
+

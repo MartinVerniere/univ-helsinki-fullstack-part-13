@@ -10,6 +10,7 @@ Accept: application/json
 ### Create blog 1
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMDgwNn0.nfwX5Inmb0uYQOVToX1dgxgxIO_Wv00xFEdy3krbYnM
 
 {
   "author": "John Doe",
@@ -22,6 +23,7 @@ Content-Type: application/json
 ### Create blog 2
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMDgwNn0.nfwX5Inmb0uYQOVToX1dgxgxIO_Wv00xFEdy3krbYnM
 
 {
   "author": "Jane Smith",
@@ -34,6 +36,7 @@ Content-Type: application/json
 ### Create blog 3
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMDgwNn0.nfwX5Inmb0uYQOVToX1dgxgxIO_Wv00xFEdy3krbYnM
 
 {
   "author": "Alex Johnson",
@@ -62,7 +65,6 @@ Content-Type: application/json
 PUT http://localhost:3001/api/blogs/1
 Content-Type: application/json
 
-
 ### ======================================== USERS  ======================================== ###
 
 ### Get all users
@@ -74,8 +76,31 @@ POST http://localhost:3001/api/users
 Content-Type: application/json
 
 {
-  "username": "martinverniere",
-  "name": "Martin Verniere"
+  	"username": "mluukkai@example.com",
+  	"name": "Matti Luukkainen",
+  	"password": "secret"
+}
+
+### Create user 2
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  	"username": "jakousa@example.com",
+  	"name": "Jami Kousa",
+    "password": "secret",
+  	"disabled": true
+}
+
+### Create user 3
+POST http://localhost:3001/api/users
+Content-Type: application/json
+
+{
+  	"username": "ousa@example.com",
+  	"name": "Outi Savolainen",
+	"password": "secret",
+  	"admin": true
 }
 
 ### Login user 
@@ -83,7 +108,7 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "username": "martinverniere",
+  "username": "mluukkai@example.com",
   "password": "secret"
 }
 
@@ -92,5 +117,14 @@ PUT http://localhost:3001/api/users/martinverniere
 Content-Type: application/json
 
 {
-  "name": "Martin Verniere"
+  "name": "Edited"
+}
+
+### Change is enabled user 
+PUT http://localhost:3001/api/users/jakousa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im91c2EyIiwiaWQiOjUsImlhdCI6MTc3MjAyNjc3OX0.g-BJ6DLS3SNdnFUOTvWqNSjckgfbmJfiiQYyA_9Gxmo
+
+{
+  "disabled": false
 }
