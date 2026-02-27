@@ -1,5 +1,6 @@
 import express from 'express';
 import models from '../models/index.js';
+import { tokenExtractor } from '../util/middleware.js';
 
 const { Blog, User, ReadingList } = models;
 
@@ -42,5 +43,24 @@ router.post('/', blogFinder, userFinder, async (req, res) => {
 		});
 	} catch (error) {
 		return res.status(400).json({ error });
+	}
+});
+
+router.put('/:id', tokenExtractor, async (req, res) => {
+	try {
+		const user = await User.findByPk(req.decodedToken.id);
+		if (!user) return res.status(404).json({ error: 'User not found' });
+
+		const readingListEntry = await ReadingList.findByPk(req.params.id);
+		if (!readingListEntry) return res.status(404).json({ message: "Couldn't find entry in reading list" });
+
+		if (readingListEntry.userId !== user.id) return res.status(400).json({ message: "Can't mark as read entry in blog list of another user" });
+
+		readingListEntry.read = req.body.read;
+		await readingListEntry.save();
+
+		res.status(200).json(readingListEntry);
+	} catch (error) {
+		res.status(400).json({ error: error.message })
 	}
 });

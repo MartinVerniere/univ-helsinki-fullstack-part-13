@@ -113,7 +113,7 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "username": "mluukkai@example.com",
+  "username": "ousa@example.com",
   "password": "secret"
 }
 
@@ -146,4 +146,13 @@ Content-Type: application/json
 {
   "blogId": 3,
   "userId": 2	
+}
+
+### Mark blog in reading list as read
+PUT http://localhost:3001/api/readinglists/6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im91c2FAZXhhbXBsZS5jb20iLCJpZCI6MywiaWF0IjoxNzcyMjAwMjU0fQ.6zxIVnsTNIOPskGmFO_fyYrrBoRpMouDDsOi3KrRaLw
+
+{
+  "read": true
 }
