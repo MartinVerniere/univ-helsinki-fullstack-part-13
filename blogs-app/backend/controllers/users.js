@@ -8,12 +8,21 @@ export const router = express.Router();
 
 router.get('/', async (req, res) => {
 	const users = await User.findAll({
-		include: {
-			model: Blog,
-			attributes: {
-				exclude: ['userId']
+		attributes: { exclude: ['passwordHash'] },
+		include: [
+			{
+				model: Blog,
+				attributes: { exclude: ['userId'] }
+			},
+			{
+				model: Blog,
+				as: 'user_reading_list',
+				attributes: ['author', 'url', 'title', 'year_written', 'date'],
+				through: {
+					attributes: ['read']
+				},
 			}
-		}
+		],
 	});
 	res.json(users);
 });
