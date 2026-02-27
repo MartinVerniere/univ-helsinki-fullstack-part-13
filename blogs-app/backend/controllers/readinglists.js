@@ -1,7 +1,7 @@
 import express from 'express';
 import models from '../models/index.js';
 
-const { Blog, User } = models;
+const { Blog, User, ReadingList } = models;
 
 export const router = express.Router();
 
@@ -26,6 +26,11 @@ const userFinder = async (req, res, next) => {
 		next(error);
 	}
 }
+
+router.get('/', async (req, res) => {
+	const readingListEntries = await ReadingList.findAll();
+	res.json(readingListEntries);
+});
 
 router.post('/', blogFinder, userFinder, async (req, res) => {
 	try {

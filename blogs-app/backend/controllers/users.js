@@ -40,7 +40,7 @@ router.get('/:id', userFinder, async (req, res) => {
 				as: 'user_reading_list',
 				attributes: ['id', 'url', 'title', 'author', 'likes', 'year_written'],
 				through: {
-					attributes: ['read']
+					attributes: ['id', 'read']
 				},
 			}
 		],

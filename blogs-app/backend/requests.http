@@ -136,6 +136,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im91c
 
 ### ======================================== READING LIST ======================================== ###
 
+### Get all reading list entries
+GET http://localhost:3001/api/readinglists
+
 ### Add blog to user reading list 
 POST http://localhost:3001/api/readinglists
 Content-Type: application/json
