@@ -38,14 +38,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sd
 ### Create blog 3
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMTUzMX0.dFb1iZ0a52FbrflHcvVoejE6xdQXXD4F5-9s6QS72yE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjE5Nzk4N30.KSBN5wnjNqGgcPbem-i_9olnJlfxe9KVQOwovL0tGrY
 
 {
   "author": "Alex Johnson",
   "title": "PostgreSQL Basics",
   "url": "https://example.com/postgresql-basics",
   "likes": 0,
-  "date": "16:45:00"
+  "date": "16:45:00",
+  "year_written": 2026
 }
 
 ### Create blog 4 - Error
@@ -71,6 +72,9 @@ Content-Type: application/json
 
 ### Get all users
 GET http://localhost:3001/api/users
+
+### Get user 2
+GET http://localhost:3001/api/users/2
 
 ### Create user 
 POST http://localhost:3001/api/users
@@ -128,4 +132,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im91c
 
 {
   "disabled": false
+}
+
+### ======================================== READING LIST ======================================== ###
+
+### Add blog to user reading list 
+POST http://localhost:3001/api/readinglists
+Content-Type: application/json
+
+{
+  "blogId": 3,
+  "userId": 2	
 }

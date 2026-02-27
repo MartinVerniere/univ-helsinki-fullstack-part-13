@@ -6,6 +6,7 @@ import { router as usersRouter } from './controllers/users.js';
 import { router as loginRouter } from './controllers/login.js';
 import { router as authorsRouter } from './controllers/authors.js';
 import { router as resetRouter } from './controllers/reset.js';
+import { router as readingListRouter } from './controllers/readinglists.js';
 import { errorHandler, unknownEndpoint } from './util/middleware.js';
 
 const app = express();
@@ -17,6 +18,7 @@ app.use('/api/blogs', blogsRuter);
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/authors', authorsRouter);
+app.use('/api/readinglists', readingListRouter);
 app.use('/api/reset', resetRouter);
 
 app.use(unknownEndpoint);

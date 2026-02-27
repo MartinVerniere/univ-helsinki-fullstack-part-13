@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import models from '../models/index.js';
-import { isAdmin, tokenExtractor } from '../util/middleware.js';
+import { isAdmin, tokenExtractor, userFinder } from '../util/middleware.js';
 const { User, Blog } = models;
 
 export const router = express.Router();
@@ -17,7 +17,28 @@ router.get('/', async (req, res) => {
 			{
 				model: Blog,
 				as: 'user_reading_list',
-				attributes: ['author', 'url', 'title', 'year_written', 'date'],
+				attributes: ['id', 'url', 'title', 'author', 'likes', 'year_written'],
+				through: {
+					attributes: ['read']
+				},
+			}
+		],
+	});
+	res.json(users);
+});
+
+router.get('/:id', userFinder, async (req, res) => {
+	const users = await User.findByPk(req.user.id, {
+		attributes: { exclude: ['passwordHash'] },
+		include: [
+			{
+				model: Blog,
+				attributes: { exclude: ['userId'] }
+			},
+			{
+				model: Blog,
+				as: 'user_reading_list',
+				attributes: ['id', 'url', 'title', 'author', 'likes', 'year_written'],
 				through: {
 					attributes: ['read']
 				},
