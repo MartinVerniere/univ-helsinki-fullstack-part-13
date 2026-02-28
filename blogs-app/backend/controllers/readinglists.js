@@ -10,7 +10,7 @@ const blogFinder = async (req, res, next) => {
 	try {
 		const blog = await Blog.findByPk(req.body.blogId);
 		if (blog) req.blog = blog;
-		else return res.status(404).json({ message: "Couldn't find the specified blog" });
+		else return res.status(400).json({ message: "Couldn't find the specified blog" });
 		next();
 	} catch (error) {
 		next(error);
@@ -21,7 +21,7 @@ const userFinder = async (req, res, next) => {
 	try {
 		const user = await User.findByPk(req.body.userId);
 		if (user) req.user = user;
-		else return res.status(404).json({ message: "Couldn't find the specified user" });
+		else return res.status(400).json({ message: "Couldn't find the specified user" });
 		next();
 	} catch (error) {
 		next(error);
