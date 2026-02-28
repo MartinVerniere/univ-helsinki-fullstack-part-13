@@ -1,7 +1,7 @@
 import express from 'express'
 import models from '../models/index.js';
 import { Op } from 'sequelize';
-import { blogFinder, tokenExtractor } from '../util/middleware.js';
+import { authenticate, blogFinder } from '../util/middleware.js';
 
 const { User, Blog } = models;
 
@@ -34,7 +34,7 @@ router.get('/', async (req, res) => {
 	res.json(blogs);
 });
 
-router.post('/', tokenExtractor, async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id);
 		const blog = await Blog.create({ ...req.body, userId: user.id })
@@ -52,7 +52,7 @@ router.get('/:id', blogFinder, async (req, res) => {
 	}
 });
 
-router.delete('/:id', tokenExtractor, blogFinder, async (req, res) => {
+router.delete('/:id', authenticate, blogFinder, async (req, res) => {
 	if (req.blog) {
 		if (req.decodedToken.id === req.blog.userId) { // If associated token from request is the same as the user id inside the blog object, its same user
 			await req.blog.destroy();

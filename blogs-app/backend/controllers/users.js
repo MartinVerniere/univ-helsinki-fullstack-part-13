@@ -1,7 +1,7 @@
 import express from 'express';
 import bcrypt from 'bcrypt';
 import models from '../models/index.js';
-import { isAdmin, tokenExtractor, userFinder } from '../util/middleware.js';
+import { authenticate, isAdmin, userFinder } from '../util/middleware.js';
 const { User, Blog } = models;
 
 export const router = express.Router();
@@ -64,7 +64,7 @@ router.post('/', async (req, res) => {
 	}
 });
 
-router.put('/:username', tokenExtractor, isAdmin, async (req, res) => {
+router.put('/:username', authenticate, isAdmin, async (req, res) => {
 	const user = await User.findOne({ where: { username: req.params.username } });
 	if (user) {
 		user.name = req.body.name;

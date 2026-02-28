@@ -1,6 +1,6 @@
 import express from 'express';
 import models from '../models/index.js';
-import { tokenExtractor } from '../util/middleware.js';
+import { authenticate } from '../util/middleware.js';
 
 const { Blog, User, ReadingList } = models;
 
@@ -46,7 +46,7 @@ router.post('/', blogFinder, userFinder, async (req, res) => {
 	}
 });
 
-router.put('/:id', tokenExtractor, async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id);
 		if (!user) return res.status(404).json({ error: 'User not found' });

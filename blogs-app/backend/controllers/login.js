@@ -1,10 +1,11 @@
 import jwt from 'jsonwebtoken';
 import express from 'express';
 import { SECRET } from '../util/config.js';
-import { User } from '../models/user.js';
+import models from '../models/index.js';
 import bcrypt from 'bcrypt';
 
 const { sign } = jwt;
+const { User, Session } = models;
 
 export const router = express.Router();
 
@@ -37,7 +38,9 @@ router.post('/', async (request, response) => {
 
 	const token = sign(userForToken, SECRET);
 
-	response
-		.status(200)
-		.send({ token, username: user.username, name: user.name });
-})
+	const activeSession = await Session.findOne({ where: { user_id: user.id } });
+	if (activeSession) return response.status(401).json({ error: 'user already logged in' });
+	await Session.create({ user_id: user.id, token: token });
+
+	return response.status(200).send({ token, username: user.username, name: user.name });
+});

@@ -2,37 +2,54 @@ import jwt from 'jsonwebtoken';
 import { Sequelize } from 'sequelize';
 import { SECRET } from './config.js';
 import models from '../models/index.js';
-const { User, Blog } = models;
+const { User, Blog, Session } = models;
 
-export const errorHandler = (error, request, response, next) => {
+export const errorHandler = (error, req, res, next) => {
 	console.error(error.message);
 
 	if (error instanceof Sequelize.ValidationError) {
-		return response.status(400).json({ error: error.message });
+		return res.status(400).json({ error: error.message });
 	}
 
 	if (error instanceof Sequelize.DatabaseError) {
-		return response.status(400).json({ error: 'malformatted data' });
+		return res.status(400).json({ error: 'malformatted data' });
 	}
 
 	next(error);
 }
 
-export const unknownEndpoint = (request, response) => {
-	response.status(404).send({ error: 'unknown endpoint' });
+export const unknownEndpoint = (req, res) => {
+	res.status(404).send({ error: 'unknown endpoint' });
 }
 
-export const tokenExtractor = (req, res, next) => {
+export const authenticate = async (req, res, next) => {
 	const authorization = req.get('authorization');
-	if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-		try {
-			req.decodedToken = jwt.verify(authorization.substring(7), SECRET);
-		} catch {
-			return res.status(401).json({ error: 'token invalid' });
-		}
-	} else {
+
+	if (!authorization || !authorization.toLowerCase().startsWith('bearer ')) {
 		return res.status(401).json({ error: 'token missing' });
 	}
+
+	const token = authorization.substring(7);
+	let decodedToken;
+
+	try {
+		decodedToken = jwt.verify(token, SECRET);
+	} catch {
+		return res.status(401).json({ error: 'token invalid' });
+	}
+
+	const session = await Session.findOne({ where: { token }, include: User });
+
+	if (!session) return res.status(401).json({ error: 'error, user is not logged in' });
+
+	if (session.user.disabled) {
+		await session.destroy();
+		return res.status(401).json({ error: 'error, account disabled' });
+	}
+
+	req.session = session;
+	req.decodedToken = decodedToken;
+
 	next();
 }
 
@@ -65,4 +82,3 @@ export const userFinder = async (req, res, next) => {
 		next(error);
 	}
 }
-

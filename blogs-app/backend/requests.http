@@ -1,3 +1,5 @@
+@authToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjI4NTM5OH0.MJjQ89lm-k-5mRyoowegRwYJ0kEEYP4AMEDAIglTodc
+
 ### ======================================== BLOGS  ======================================== ###
 ### Get all blogs
 GET http://localhost:3001/api/blogs
@@ -10,7 +12,7 @@ Accept: application/json
 ### Create blog 1
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMTUzMX0.dFb1iZ0a52FbrflHcvVoejE6xdQXXD4F5-9s6QS72yE
+Authorization: Bearer {{authToken}}
 
 {
   "author": "John Doe",
@@ -24,7 +26,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sd
 ### Create blog 2
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjExMTUzMX0.dFb1iZ0a52FbrflHcvVoejE6xdQXXD4F5-9s6QS72yE
+Authorization: Bearer {{authToken}}
 
 {
   "author": "Jane Smith",
@@ -38,7 +40,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sd
 ### Create blog 3
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1sdXVra2FpQGV4YW1wbGUuY29tIiwiaWQiOjEsImlhdCI6MTc3MjE5Nzk4N30.KSBN5wnjNqGgcPbem-i_9olnJlfxe9KVQOwovL0tGrY
+Authorization: Bearer {{authToken}}
 
 {
   "author": "Alex Johnson",
@@ -113,9 +115,14 @@ POST http://localhost:3001/api/login
 Content-Type: application/json
 
 {
-  "username": "ousa@example.com",
+  "username": "mluukkai@example.com",
   "password": "secret"
 }
+
+### Logout user
+DELETE  http://localhost:3001/api/logout
+Authorization: Bearer {{authToken}}
+
 
 ### Edit user name (not username)
 PUT http://localhost:3001/api/users/martinverniere
@@ -128,7 +135,7 @@ Content-Type: application/json
 ### Change is enabled user 
 PUT http://localhost:3001/api/users/jakousa
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im91c2EyIiwiaWQiOjUsImlhdCI6MTc3MjAyNjc3OX0.g-BJ6DLS3SNdnFUOTvWqNSjckgfbmJfiiQYyA_9Gxmo
+Authorization: Bearer {{authToken}}
 
 {
   "disabled": false
@@ -144,15 +151,20 @@ POST http://localhost:3001/api/readinglists
 Content-Type: application/json
 
 {
-  "blogId": 3,
-  "userId": 2	
+  "blogId": 1,
+  "userId": 1	
 }
 
 ### Mark blog in reading list as read
-PUT http://localhost:3001/api/readinglists/6
+PUT http://localhost:3001/api/readinglists/9
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im91c2FAZXhhbXBsZS5jb20iLCJpZCI6MywiaWF0IjoxNzcyMjAwMjU0fQ.6zxIVnsTNIOPskGmFO_fyYrrBoRpMouDDsOi3KrRaLw
+Authorization: Bearer {{authToken}}
 
 {
   "read": true
 }
+
+
+### ======================================== SESSION ======================================== ###
+### Get all session entries
+GET http://localhost:3001/api/sessions
