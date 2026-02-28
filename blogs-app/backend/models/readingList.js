@@ -27,5 +27,11 @@ ReadingList.init({
 	sequelize,
 	underscored: true,
 	timestamps: true,
-	modelName: 'reading_list'
+	modelName: 'reading_list',
+	indexes: [
+		{
+			unique: true,
+			fields: ['userId', 'blogId']
+		}
+	]
 });
