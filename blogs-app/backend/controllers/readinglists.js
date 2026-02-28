@@ -30,7 +30,7 @@ const userFinder = async (req, res, next) => {
 
 router.get('/', async (req, res) => {
 	const readingListEntries = await ReadingList.findAll();
-	res.json(readingListEntries);
+	res.status(200).json(readingListEntries);
 });
 
 router.post('/', blogFinder, userFinder, async (req, res) => {

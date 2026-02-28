@@ -26,11 +26,13 @@ Blog.init({
 		defaultValue: 0
 	},
 	date: {
-		type: DataTypes.TIME
+		type: DataTypes.TIME,
+		defaultValue: () => new Date().toTimeString().split(' ')[0]
 	},
 	year_written: {
 		type: DataTypes.INTEGER,
 		allowNull: false,
+		defaultValue: () => new Date().getFullYear(),
 		validate: {
 			min: {
 				args: 1991,

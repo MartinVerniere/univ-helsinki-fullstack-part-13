@@ -7,5 +7,5 @@ export const router = express.Router();
 
 router.get('/', async (req, res) => {
 	const sessionEntries = await Session.findAll();
-	res.json(sessionEntries);
+	res.status(200).json(sessionEntries);
 });

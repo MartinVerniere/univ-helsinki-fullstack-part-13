@@ -24,5 +24,5 @@ router.get('/', async (req, res) => {
 		group,
 		order
 	});
-	res.json(blogs);
+	res.status(200).json(blogs);
 });

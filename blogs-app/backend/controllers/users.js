@@ -24,7 +24,7 @@ router.get('/', async (req, res) => {
 			}
 		],
 	});
-	res.json(users);
+	res.status(200).json(users);
 });
 
 router.get('/:id', userFinder, async (req, res) => {
@@ -50,7 +50,7 @@ router.get('/:id', userFinder, async (req, res) => {
 			}
 		],
 	});
-	res.json(users);
+	res.status(200).json(users);
 });
 
 router.post('/', async (req, res) => {
@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
 		const { username, name, password, admin, disabled } = req.body;
 		const passwordHash = await bcrypt.hash(password, 10);
 		const user = await User.create({ username, name, passwordHash, admin, disabled });
-		res.json(user);
+		res.status(200).json(user);
 	} catch (error) {
 		return res.status(400).json({ error });
 	}
@@ -69,7 +69,7 @@ router.put('/:username', authenticate, isAdmin, async (req, res) => {
 	if (user) {
 		user.name = req.body.name;
 		await user.save();
-		res.json(user);
+		res.status(200).json(user);
 	} else {
 		res.status(404).end();
 	}

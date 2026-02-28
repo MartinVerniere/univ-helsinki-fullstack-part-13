@@ -31,14 +31,14 @@ router.get('/', async (req, res) => {
 		where,
 		order
 	});
-	res.json(blogs);
+	res.status(200).json(blogs);
 });
 
 router.post('/', authenticate, async (req, res) => {
 	try {
 		const user = await User.findByPk(req.decodedToken.id);
 		const blog = await Blog.create({ ...req.body, userId: user.id })
-		res.json(blog);
+		res.status(200).json(blog);
 	} catch (error) {
 		return res.status(400).json({ error });
 	}
@@ -46,7 +46,7 @@ router.post('/', authenticate, async (req, res) => {
 
 router.get('/:id', blogFinder, async (req, res) => {
 	if (req.blog) {
-		res.json(req.blog);
+		res.status(200).json(req.blog);
 	} else {
 		res.status(404).end();
 	}
