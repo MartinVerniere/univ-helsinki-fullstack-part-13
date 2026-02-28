@@ -7,7 +7,7 @@ const { User, Note } = models;
 export const router = express.Router();
 
 router.get('/', async (req, res) => {
-	const users = await User.findAll({
+	const users = await User.scope().findAll({ //Add scopes if want to filter
 		include: [
 			{
 				model: Note,
@@ -64,21 +64,21 @@ router.get('/:id', async (req, res) => {
 				model: User,
 				attributes: ['name']
 			}
-		},
-		{
-			model: Team,
-			attributes: ['name', 'id'],
-			through: {
-				attributes: []
-			}
-		},
+		}
 		]
 	});
-	if (user) {
-		res.json(user);
-	} else {
-		res.status(404).end();
+
+	if (!user) return res.status(404).end();
+
+	let teams = undefined;
+	if (req.query.teams) {
+		teams = await user.getTeams({
+			attributes: ['name', 'id'],
+			joinTableAttributes: []
+		});
 	}
+
+	res.json({ ...user.toJSON(), teams });
 });
 
 router.put('/:username', tokenExtractor, isAdmin, async (req, res) => {
