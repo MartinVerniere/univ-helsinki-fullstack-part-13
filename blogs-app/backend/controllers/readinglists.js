@@ -36,10 +36,11 @@ router.get('/', async (req, res) => {
 router.post('/', blogFinder, userFinder, async (req, res) => {
 	try {
 		await req.user.addUser_reading_list(req.blog);
-		res.status(201).json({
+		return res.status(201).json({
 			message: "Blog added to reading list",
-			userId: req.user.id,
-			blogId: req.blog.id
+			user_id: req.user.id,
+			blog_id: req.blog.id,
+			read: false
 		});
 	} catch (error) {
 		return res.status(400).json({ error });
