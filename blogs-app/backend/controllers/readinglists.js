@@ -30,7 +30,7 @@ const findBlogAndUser = async (req, res, next) => {
 
 router.get('/', async (req, res) => {
 	const readingListEntries = await ReadingList.findAll();
-	res.status(200).json(readingListEntries);
+	return res.status(200).json(readingListEntries);
 });
 
 router.post('/', findBlogAndUser, async (req, res) => {
@@ -38,13 +38,8 @@ router.post('/', findBlogAndUser, async (req, res) => {
 		const alreadyExists = await ReadingList.findOne({ where: { userId: req.user.id, blogId: req.blog.id } });
 		if (alreadyExists) return res.status(400).json({ error: 'Blog already added to reading list' });
 
-		await req.user.addUser_reading_list(req.blog);
-		return res.status(201).json({
-			message: "Blog added to reading list",
-			user_id: req.user.id,
-			blog_id: req.blog.id,
-			read: false
-		});
+		const newEntry = await req.user.addUser_reading_list(req.blog);
+		return res.status(201).json(newEntry);
 	} catch (error) {
 		return res.status(400).json({ error });
 	}
