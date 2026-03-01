@@ -46,21 +46,22 @@ router.post('/', authenticate, async (req, res) => {
 
 router.get('/:id', blogFinder, async (req, res) => {
 	if (req.blog) {
-		res.status(200).json(req.blog);
+		return res.status(200).json(req.blog);
 	} else {
-		res.status(404).end();
+		return res.status(404).end();
 	}
 });
 
 router.delete('/:id', authenticate, blogFinder, async (req, res) => {
-	if (req.blog) {
-		if (req.decodedToken.id === req.blog.userId) { // If associated token from request is the same as the user id inside the blog object, its same user
-			await req.blog.destroy();
-		} else {
-			return res.status(403).json({ error: "Can't delete a blog created by another user." });
-		}
+	try {
+		// If associated token from request is the same as the user id inside the blog object, its same user
+		if (req.decodedToken.id === req.blog.userId) await req.blog.destroy();
+		else return res.status(403).json({ error: "Can't delete a blog created by another user." });
+	} catch (error) {
+		return res.status(400).json({ error: error });
 	}
-	res.status(204).end();
+
+	return res.status(204).end();
 });
 
 router.put('/:id', blogFinder, async (req, res) => {

@@ -65,7 +65,7 @@ export const blogFinder = async (req, res, next) => {
 	try {
 		const blog = await Blog.findByPk(req.params.id);
 		if (blog) req.blog = blog;
-		else return res.status(400).end();
+		else return res.status(404).end();
 		next();
 	} catch (error) {
 		next(error);
@@ -76,7 +76,7 @@ export const userFinder = async (req, res, next) => {
 	try {
 		const user = await User.findByPk(req.params.id);
 		if (user) req.user = user;
-		else return res.status(400).end();
+		else return res.status(404).end();
 		next();
 	} catch (error) {
 		next(error);
