@@ -17,7 +17,7 @@ Session.init({
 	token: {
 		type: DataTypes.STRING,
 		allowNull: false,
-		unique: true,
+		//unique: true,
 	},
 }, {
 	sequelize,

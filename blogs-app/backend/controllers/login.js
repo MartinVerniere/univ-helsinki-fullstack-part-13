@@ -38,8 +38,8 @@ router.post('/', async (request, response) => {
 
 	const token = sign(userForToken, SECRET);
 
-	const activeSession = await Session.findOne({ where: { user_id: user.id } });
-	if (activeSession) return response.status(401).json({ error: 'user already logged in' });
+	//const activeSession = await Session.findOne({ where: { user_id: user.id } });
+	//if (activeSession) return response.status(401).json({ error: 'user already logged in' });
 	await Session.create({ user_id: user.id, token: token });
 
 	return response.status(200).send({ token, username: user.username, name: user.name });
