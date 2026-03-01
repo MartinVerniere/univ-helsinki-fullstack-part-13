@@ -5,5 +5,5 @@ export const router = express.Router();
 
 router.delete('/', authenticate, async (req, res) => {
 	await req.session.destroy();
-	res.status(200).send({ message: 'Logged off successfully!' });
+	res.status(204).send({ message: 'Logged off successfully!' });
 })

@@ -119,10 +119,10 @@ describe('Reading Lists API', () => {
 		ok([200, 201].includes(response.status));
 		strictEqual(response.data.name, testData.users[0].name);
 		strictEqual(response.data.username, testData.users[0].username);
-		ok(Array.isArray(response.data.readings));
-		ok(response.data.readings.length > 0);
+		ok(Array.isArray(response.data.user_reading_list));
+		ok(response.data.user_reading_list.length > 0);
 
-		const reading = response.data.readings[0];
+		const reading = response.data.user_reading_list[0];
 		ok(reading.id);
 		ok(reading.title);
 		ok(reading.author);
@@ -139,13 +139,13 @@ describe('Reading Lists API', () => {
 		ok([200, 201].includes(responseRead.status));
 
 		// All readings should be unread at this point
-		ok(responseUnread.data.readings.length > 0);
-		strictEqual(responseRead.data.readings.length, 0);
+		ok(responseUnread.data.user_reading_list.length > 0);
+		strictEqual(responseRead.data.user_reading_list.length, 0);
 	})
 
 	it('user can mark a blog as read with authentication', async () => {
 		const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`);
-		const readingListId = userResponse.data.readings[0].reading_list.id;
+		const readingListId = userResponse.data.user_reading_list[0].reading_list.id;
 
 		const response = await axios.put(
 			`${baseUrl}/readinglists/${readingListId}`,
@@ -159,7 +159,7 @@ describe('Reading Lists API', () => {
 
 	it('marking as read requires authentication', async () => {
 		const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`);
-		const readingListId = userResponse.data.readings[0].reading_list.id;
+		const readingListId = userResponse.data.user_reading_list[0].reading_list.id;
 
 		try {
 			await axios.put(
@@ -174,7 +174,7 @@ describe('Reading Lists API', () => {
 
 	it('user can only mark their own reading list entries', async () => {
 		const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`);
-		const readingListId = userResponse.data.readings[0].reading_list.id;
+		const readingListId = userResponse.data.user_reading_list[0].reading_list.id;
 
 		try {
 			await axios.put(
@@ -204,11 +204,11 @@ describe('Reading Lists API', () => {
 	it('verified that blog is now marked as read', async () => {
 		const responseRead = await axios.get(`${baseUrl}/users/${testData.users[0].id}?read=true`);
 		ok([200, 201].includes(responseRead.status));
-		ok(responseRead.data.readings.length > 0);
+		ok(responseRead.data.user_reading_list.length > 0);
 
 		const responseUnread = await axios.get(`${baseUrl}/users/${testData.users[0].id}?read=false`);
 		ok([200, 201].includes(responseUnread.status));
-		strictEqual(responseUnread.data.readings.length, 0);
+		strictEqual(responseUnread.data.user_reading_list.length, 0);
 	})
 })
 
