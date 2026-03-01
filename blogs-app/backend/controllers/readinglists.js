@@ -41,10 +41,7 @@ router.post('/', findBlogAndUser, async (req, res) => {
 		await req.user.addUser_reading_list(req.blog);
 
 		//Get last entry added
-		const newEntry = await ReadingList.findOne({
-			where: { userId: req.user.id, blogId: req.blog.id },
-			order: [['createdAt', 'DESC']]
-		});
+		const newEntry = await ReadingList.findOne({ where: { userId: req.user.id, blogId: req.blog.id } });
 
 		return res.status(201).json({
 			message: "Blog added to reading list",
