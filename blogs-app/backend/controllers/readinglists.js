@@ -46,7 +46,13 @@ router.post('/', findBlogAndUser, async (req, res) => {
 			order: [['createdAt', 'DESC']]
 		});
 
-		return res.status(201).json(newEntry);
+		return res.status(201).json({
+			message: "Blog added to reading list",
+			id: newEntry.id,
+			user_id: newEntry.userId,
+			blog_id: newEntry.blogId,
+			read: newEntry.read
+		});
 	} catch (error) {
 		return res.status(400).json({ error });
 	}
