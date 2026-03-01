@@ -38,7 +38,14 @@ router.post('/', findBlogAndUser, async (req, res) => {
 		const alreadyExists = await ReadingList.findOne({ where: { userId: req.user.id, blogId: req.blog.id } });
 		if (alreadyExists) return res.status(400).json({ error: 'Blog already added to reading list' });
 
-		const newEntry = await req.user.addUser_reading_list(req.blog);
+		await req.user.addUser_reading_list(req.blog);
+
+		//Get last entry added
+		const newEntry = await ReadingList.findOne({
+			where: { userId: req.user.id, blogId: req.blog.id },
+			order: [['createdAt', 'DESC']]
+		});
+
 		return res.status(201).json(newEntry);
 	} catch (error) {
 		return res.status(400).json({ error });
