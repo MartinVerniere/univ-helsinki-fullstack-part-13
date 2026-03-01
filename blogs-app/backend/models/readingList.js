@@ -28,10 +28,4 @@ ReadingList.init({
 	underscored: true,
 	timestamps: true,
 	modelName: 'reading_list',
-	indexes: [
-		{
-			unique: true,
-			fields: ['userId', 'blogId']
-		}
-	]
 });
